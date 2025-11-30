@@ -1,0 +1,95 @@
+```
+ARCHITECTURE DIAGRAM - Eli's Clothing Brand E-Commerce Platform
+==============================================================
+
+┌─────────────────────────────────────────────────────────────────┐
+│                    CLIENT LAYER (Frontend)                       │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │ home.html / index.html (Static HTML/CSS/JavaScript)     │   │
+│  │ - Responsive product grid layout                        │   │
+│  │ - Shopping cart management                              │   │
+│  │ - Real-time cart counter & notifications                │   │
+│  └──────────────────────────────────────────────────────────┘   │
+└──────────────────────┬──────────────────────────────────────────┘
+                       │
+                       │ HTTP/CORS
+                       │ Fetch API
+                       ↓
+┌─────────────────────────────────────────────────────────────────┐
+│              DOCKER CONTAINER (Application Layer)                │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │ Python 3.11-slim Base Image                             │   │
+│  │                                                          │   │
+│  │ ┌────────────────────────────────────────────────────┐  │   │
+│  │ │ Flask REST API (Port 8080)                         │  │   │
+│  │ │ - GET  /products        → All products             │  │   │
+│  │ │ - GET  /products/<id>   → Single product           │  │   │
+│  │ │ - POST /cart/add        → Add to cart              │  │   │
+│  │ │ - GET  /health          → Health check             │  │   │
+│  │ │ - Static /assets/*      → Images & assets          │  │   │
+│  │ └────────────────────────────────────────────────────┘  │   │
+│  │                                                          │   │
+│  │ ┌────────────────────────────────────────────────────┐  │   │
+│  │ │ Logging & Monitoring                               │  │   │
+│  │ │ - Structured logging (timestamps, levels)          │  │   │
+│  │ │ - CORS middleware for cross-origin requests        │  │   │
+│  │ │ - Error handling & validation                      │  │   │
+│  │ └────────────────────────────────────────────────────┘  │   │
+│  │                                                          │   │
+│  │ ┌────────────────────────────────────────────────────┐  │   │
+│  │ │ Data Sources                                        │  │   │
+│  │ │ - src/data/products.json   (8 sample products)     │  │   │
+│  │ │ - src/models.py             (Product dataclass)    │  │   │
+│  │ │ - assets/images/            (Product images)       │  │   │
+│  │ └────────────────────────────────────────────────────┘  │   │
+│  └──────────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────────┘
+
+COURSE CONCEPTS INTEGRATED
+==========================
+
+✓ Flask API Design (REST Architecture)
+  - RESTful endpoint design with proper HTTP methods (GET/POST)
+  - Content negotiation (JSON responses with CORS)
+  - Resource-oriented architecture with IDs
+
+✓ Containerization (Docker & DevOps)
+  - Multi-layer Dockerfile optimization
+  - Environment variable configuration
+  - Health checks for production readiness
+  - Reproducible builds and runs
+
+✓ Logging & Monitoring (Observability)
+  - Structured logging with severity levels
+  - Request tracing and error tracking
+  - Audit trail for cart operations
+
+✓ Data Modeling
+  - Product dataclass with type hints
+  - JSON serialization/deserialization
+  - In-memory cart management
+
+DATA FLOW
+=========
+
+1. User loads home.html in browser
+2. JavaScript calls GET /products from Flask API
+3. Flask responds with JSON array of 8 products
+4. Frontend renders responsive product grid
+5. User clicks "Add to Cart"
+6. JavaScript sends POST /cart/add with user_id, product_id, quantity
+7. Flask stores in-memory cart and responds with confirmation
+8. Frontend updates cart counter and shows success notification
+9. User can view cart contents and proceed to checkout
+
+KEY FILES
+=========
+
+- src/app.py          (120 lines) - Flask application & routes
+- src/models.py       (30 lines)  - Product dataclass
+- home.html           (600 lines) - Professional website frontend
+- Dockerfile          (35 lines)  - Container configuration
+- requirements.txt    (4 pkgs)    - Dependencies
+- tests/test_products.py (60 lines) - Test suite
+- src/data/products.json           - Sample data
+```

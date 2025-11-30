@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "name": "Classic Cotton T-Shirt",
+    "category": "tops",
+    "price": 19.99,
+    "size": "M",
+    "color": "blue",
+    "image_url": "https://example.com/images/tshirt-blue.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Slim Fit Jeans",
+    "category": "bottoms",
+    "price": 49.99,
+    "size": "32",
+    "color": "dark blue",
+    "image_url": "https://example.com/images/jeans-darkblue.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Winter Puffer Jacket",
+    "category": "outerwear",
+    "price": 89.99,
+    "size": "L",
+    "color": "black",
+    "image_url": "https://example.com/images/jacket-black.jpg"
+  },
+  {
+    "id": 4,
+    "name": "White Leather Sneakers",
+    "category": "shoes",
+    "price": 79.99,
+    "size": "10",
+    "color": "white",
+    "image_url": "https://example.com/images/sneakers-white.jpg"
+  },
+  {
+    "id": 5,
+    "name": "Casual Polo Shirt",
+    "category": "tops",
+    "price": 34.99,
+    "size": "L",
+    "color": "red",
+    "image_url": "https://example.com/images/polo-red.jpg"
+  },
+  {
+    "id": 6,
+    "name": "Crew Neck Hoodie",
+    "category": "outerwear",
+    "price": 54.99,
+    "size": "M",
+    "color": "gray",
+    "image_url": "https://example.com/images/hoodie-gray.jpg"
+  },
+  {
+    "id": 7,
+    "name": "Chinos Trousers",
+    "category": "bottoms",
+    "price": 44.99,
+    "size": "34",
+    "color": "khaki",
+    "image_url": "https://example.com/images/chinos-khaki.jpg"
+  },
+  {
+    "id": 8,
+    "name": "Running Shoes",
+    "category": "shoes",
+    "price": 99.99,
+    "size": "11",
+    "color": "black/red",
+    "image_url": "https://example.com/images/running-shoes-black-red.jpg"
+  }
+]
