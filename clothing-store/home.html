@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eli's Clothing Brand - Premium Fashion</title>
+    <title>Flask Apparel - Premium Fashion</title>
     <style>
         * {
             margin: 0;
@@ -298,7 +298,7 @@
         .product-image img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
         }
 
         .product-info {
@@ -567,12 +567,12 @@
     <!-- Navigation -->
     <nav>
         <div class="nav-container">
-            <div class="logo">Eli's Clothing</div>
+            <div class="logo">Flask Apparel</div>
             <ul>
                 <li><a onclick="scrollToSection('shop')">Shop</a></li>
                 <li><a onclick="scrollToSection('about')">About</a></li>
-                <li><a onclick="scrollToSection('featured')">Featured</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <!-- Removed Featured button -->
+                <li><a onclick="scrollToSection('footer')">Contact</a></li>
                 <li class="cart-icon" onclick="openCart()">
                     🛒 <span class="cart-badge" id="cart-badge">0</span>
                 </li>
@@ -582,7 +582,7 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <h1>Eli's Clothing Brand</h1>
+    <h1>Flask Apparel</h1>
         <p>Premium fashion for the modern lifestyle</p>
         <button class="cta-button" onclick="scrollToSection('shop')">Shop Now</button>
     </section>
@@ -591,7 +591,7 @@
     <section id="about" class="about">
         <div>
             <h2>About Our Brand</h2>
-            <p>Eli's Clothing Brand is dedicated to bringing you the finest quality apparel with sustainable practices. We believe fashion should be accessible, comfortable, and stylish.</p>
+            <p>Flask Apparel is dedicated to bringing you the finest quality apparel with sustainable practices. We believe fashion should be accessible, comfortable, and stylish.</p>
             <p>Since our launch, we've been committed to delivering premium clothing that makes you feel confident and comfortable, day after day.</p>
             <p>Our collections are carefully curated with attention to detail, ensuring every piece represents our brand values.</p>
         </div>
@@ -629,36 +629,7 @@
         </div>
     </section>
 
-    <!-- Collections -->
-    <section class="collections" id="featured">
-        <h2>Featured Collections</h2>
-        <div class="collection-grid">
-            <div class="collection-card">
-                <div class="collection-image">👕</div>
-                <div class="collection-info">
-                    <h3>Casual Wear</h3>
-                    <p>Comfortable everyday clothing for the modern lifestyle.</p>
-                    <button class="cta-button" style="width: 100%;">Explore</button>
-                </div>
-            </div>
-            <div class="collection-card">
-                <div class="collection-image">👔</div>
-                <div class="collection-info">
-                    <h3>Formal Attire</h3>
-                    <p>Sophisticated pieces for work and special occasions.</p>
-                    <button class="cta-button" style="width: 100%;">Explore</button>
-                </div>
-            </div>
-            <div class="collection-card">
-                <div class="collection-image">🧥</div>
-                <div class="collection-info">
-                    <h3>Outerwear</h3>
-                    <p>Stylish jackets and coats for any season.</p>
-                    <button class="cta-button" style="width: 100%;">Explore</button>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- Removed Featured Collections section -->
 
     <!-- Products Section -->
     <section id="shop" class="products-section">
@@ -685,11 +656,11 @@
     </div>
 
     <!-- Footer -->
-    <footer>
+    <footer id="footer">
         <div class="footer-content">
             <div class="footer-section">
                 <h3>About Us</h3>
-                <p>Eli's Clothing Brand brings premium fashion to everyone with sustainable practices and exceptional quality.</p>
+                <p>Flask Apparel brings premium fashion to everyone with sustainable practices and exceptional quality.</p>
                 <div class="social-links">
                     <a href="#" title="Facebook">f</a>
                     <a href="#" title="Instagram">📷</a>
@@ -724,7 +695,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2025 Eli's Clothing Brand. All rights reserved. | <a href="#" style="color: #667eea;">Privacy Policy</a></p>
+            <p>&copy; 2025 Flask Apparel. All rights reserved. | <a href="#" style="color: #667eea;">Privacy Policy</a></p>
         </div>
     </footer>
 
@@ -752,11 +723,18 @@
         }
 
         // Display products in grid
+
         function displayProducts(products) {
             const container = document.getElementById('products-container');
             const loading = document.getElementById('loading');
 
-            container.innerHTML = products.map(product => `
+            container.innerHTML = products.map(product => {
+                // Build size dropdown
+                const sizeOptions = product.sizes.map(size => `<option value="${size}">${size}</option>`).join('');
+                // Build color dropdown
+                const colorOptions = product.colors.map(color => `<option value="${color}">${color.charAt(0).toUpperCase() + color.slice(1)}</option>`).join('');
+
+                return `
                 <div class="product-card">
                     <div class="product-image">
                         ${product.image_url ? `<img src="${product.image_url}" alt="${product.name}">` : '👕'}
@@ -765,8 +743,10 @@
                         <div class="product-category">${product.category}</div>
                         <div class="product-name">${product.name}</div>
                         <div class="product-details">
-                            <span>${product.size}</span>
-                            <span>${product.color}</span>
+                            <label for="size-${product.id}">Size:</label>
+                            <select id="size-${product.id}">${sizeOptions}</select>
+                            <label for="color-${product.id}" style="margin-left:10px;">Color:</label>
+                            <select id="color-${product.id}">${colorOptions}</select>
                         </div>
                         <div class="product-price">$${product.price.toFixed(2)}</div>
                         <button class="add-to-cart-btn" onclick="addToCart(${product.id}, '${product.name}', ${product.price})">
@@ -774,7 +754,8 @@
                         </button>
                     </div>
                 </div>
-            `).join('');
+                `;
+            }).join('');
 
             loading.style.display = 'none';
             container.style.display = 'grid';
@@ -783,13 +764,21 @@
         // Add product to cart
         async function addToCart(productId, productName, price) {
             try {
+                // Get selected size and color
+                const sizeSelect = document.getElementById(`size-${productId}`);
+                const colorSelect = document.getElementById(`color-${productId}`);
+                const selectedSize = sizeSelect ? sizeSelect.value : null;
+                const selectedColor = colorSelect ? colorSelect.value : null;
+
                 const response = await fetch(`${API_URL}/cart/add`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         user_id: USER_ID,
                         product_id: productId,
-                        quantity: 1
+                        quantity: 1,
+                        size: selectedSize,
+                        color: selectedColor
                     })
                 });
 
@@ -797,14 +786,16 @@
 
                 // Update local cart
                 if (!cartItems[productId]) {
-                    cartItems[productId] = { name: productName, price, quantity: 0 };
+                    cartItems[productId] = { name: productName, price, quantity: 0, size: selectedSize, color: selectedColor };
                 }
                 cartItems[productId].quantity++;
+                cartItems[productId].size = selectedSize;
+                cartItems[productId].color = selectedColor;
                 cartCount++;
                 cartTotal += price;
 
                 updateCartBadge();
-                showSuccess(`${productName} added to cart!`);
+                showSuccess(`${productName} (${selectedSize}, ${selectedColor}) added to cart!`);
             } catch (error) {
                 console.error('Error adding to cart:', error);
             }
@@ -827,7 +818,8 @@
                     .map(([id, item]) => `
                         <div class="cart-item">
                             <div>
-                                <strong>${item.name}</strong> x ${item.quantity}
+                                <strong>${item.name}</strong> x ${item.quantity}<br>
+                                <span>Size: ${item.size || '-'}</span> <span>Color: ${item.color || '-'}</span>
                             </div>
                             <div>$${(item.price * item.quantity).toFixed(2)}</div>
                         </div>
@@ -849,7 +841,7 @@
                 alert('Your cart is empty!');
                 return;
             }
-            alert(`Order placed! Total: $${cartTotal.toFixed(2)}\n\nThank you for shopping at Eli's Clothing Brand!`);
+            alert(`Order placed! Total: $${cartTotal.toFixed(2)}\n\nThank you for shopping at Flask Apparel!`);
             cartItems = {};
             cartCount = 0;
             cartTotal = 0;
