@@ -1,8 +1,8 @@
 # Eli's Clothing Brand: A Containerized E-Commerce Platform
 
-## 🎓 Case Study: REST API Design + Docker Containerization
+##  Final Case Study
 
-**Course:** DS 2026 - Systems 1  
+**Course:** DS 2026: Systems 1  
 **Submitted by:** Eli Johnson  
 **Date:** November 30, 2025
 
@@ -12,88 +12,65 @@
 
 ### Problem
 Small fashion retailers need a modern, scalable e-commerce platform that can:
-- Showcase products online with rich media
+- Showcase products online with detailed information
+- Provide a smooth shopping experience
 - Allow customers to manage shopping carts
 - Scale easily without complex infrastructure knowledge
 - Deploy consistently across different environments
 
 ### Solution
-**Eli's Clothing Brand** is a containerized full-stack e-commerce platform combining:
-- **Backend:** Flask REST API for product catalog and cart management
-- **Frontend:** Responsive HTML/JavaScript web application
-- **Deployment:** Single Docker container for reproducible, portable deployment
-
-The platform demonstrates **three core systems concepts** from DS 2026:
-
-1. **REST API Architecture** - Resource-oriented design with proper HTTP semantics
-2. **Containerization** - Docker-based deterministic deployment
-3. **Structured Logging & Observability** - Production-ready monitoring
-
-### Key Achievements
-✅ Fully functional e-commerce platform in a single Docker container  
-✅ RESTful API serving product data with proper HTTP semantics  
-✅ Responsive web frontend with real-time cart management  
-✅ Comprehensive test suite validating API contracts  
-✅ Structured logging for production observability  
-✅ Environment-based configuration (no hardcoded secrets)
+My solution is a containerized full-stack e-commerce platform combining using Flask REST API for product catalog and cart management, responsive HTML/JavaScript web application, and a single Docker container for reproducible, portable deployment. These features combined create a polished storefront allowing users to select sizes, colors, and add products to their cart with real-time updates. The website features a section dedicated to the brands mission and statement. Shortcut buttons are available to help the user move around the store quickly. 
 
 ---
 
 ## 2) System Overview
 
-### Course Concepts Integrated
+### Module Concepts / Tools Used
 
-#### **1. REST API Architecture** ⭐ PRIMARY CONCEPT
-RESTful endpoints demonstrating resource-oriented design:
+- Flask (REST API)
+- Docker (Containerization)
+- HTML/CSS/JavaScript (Frontend)
+- Flask-CORS (Cross-Origin Resource Sharing)
+- Logging (Python logging module)
+- pytest (Testing)
+- JSON (Data storage)
 
-| Endpoint | Method | Purpose | Status |
-|----------|--------|---------|--------|
-| `/products` | GET | List all products | 200 OK |
-| `/products/<id>` | GET | Retrieve single product | 200 OK / 404 |
-| `/cart/add` | POST | Add item to cart | 201 Created / 400 |
-| `/health` | GET | Health check | 200 OK |
 
-**REST Principles:**
-- ✅ Resource identification (products by ID)
-- ✅ Proper HTTP methods (GET/POST)
-- ✅ Stateless design
-- ✅ Content negotiation (JSON)
-- ✅ Proper HTTP status codes
-- ✅ CORS support
 
-#### **2. Containerization & DevOps** ⭐ PRIMARY CONCEPT
-Docker for deterministic deployment:
-
-- ✅ Python 3.11-slim base image
-- ✅ Multi-layer build optimization
-- ✅ Environment variables for configuration
-- ✅ Health checks for monitoring
-- ✅ Port exposure (8080)
-- ✅ Reproducible builds
-
-#### **3. Logging & Observability**
-Structured logging for production debugging with timestamps, modules, and severity levels.
 
 ### Architecture Diagram
 
-See [assets/ARCHITECTURE.txt](assets/ARCHITECTURE.txt) for ASCII diagram showing:
-- Browser to Flask API communication
-- Docker container boundary
-- Data flow and endpoints
+```
+┌─────────────────────────────┐
+│        Browser (User)       │
+│  home.html + JS/CSS         │
+└─────────────┬───────────────┘
+              │ HTTP/CORS
+              ▼
+┌─────────────────────────────────────────────┐
+│         Docker Container (clothing-store)   │
+│ ┌─────────────────────────────────────────┐ │
+│ │         Flask Web Server (8080)        │ │
+│ │ ┌───────────────┬────────────────────┐ │ │
+│ │ │ /home.html    │ Static Assets      │ │ │
+│ │ │ /assets/...   │ (images, CSS, JS)  │ │ │
+│ │ └───────────────┴────────────────────┘ │ │
+│ │ ┌─────────────────────────────────────┐ │ │
+│ │ │ REST API Endpoints:                 │ │ │
+│ │ │   GET /products                     │ │ │
+│ │ │   GET /products/<id>                │ │ │
+│ │ │   POST /cart/add                    │ │ │
+│ │ │   GET /health                       │ │ │
+│ │ └─────────────────────────────────────┘ │ │
+│ │ ┌─────────────────────────────────────┐ │ │
+│ │ │ Data: src/data/products.json        │ │ │
+│ │ │ Cart: In-memory (per container)     │ │ │
+│ │ └─────────────────────────────────────┘ │ │
+│ └─────────────────────────────────────────┘ │
+└─────────────────────────────────────────────┘
+```
 
-```
-Browser (HTML/JS) 
-    │
-    │ HTTP/CORS
-    ↓
-[Docker Container]
-  ├── Flask API (Port 8080)
-  │   ├── GET /products
-  │   ├── POST /cart/add
-  │   └── GET /health
-  ├── Static Assets (/assets)
-  └── Logs
-```
+![Architecture Screenshot](assets/images/Screenshot.png)
 
 ### Data Sources
 
@@ -106,29 +83,23 @@ Browser (HTML/JS)
 
 ---
 
-## 3) How to Run
 
-### Quick Start (One Command)
+## 3) How to Build & Run
 
-```bash
-chmod +x run.sh
-./run.sh
-```
-
-### Manual Docker Commands
+### Quick Start (Recommended)
 
 ```bash
-# Build
-docker build -t clothing-store:latest .
+# Build Docker image
+docker build -t clothing-store .
 
-# Run
-docker run --rm -p 8080:8080 --env-file .env clothing-store:latest
+# Run container (exposes port 8080)
+docker run -p 8080:8080 clothing-store
 
-# Test
+# Test health endpoint
 curl http://localhost:8080/health
 ```
 
-### Local Development
+### Local Development (No Docker)
 
 ```bash
 pip install -r requirements.txt
@@ -136,56 +107,50 @@ cp .env.example .env
 python3 -m src.main
 ```
 
-### Access
+### Accessing the App
 
-- **Web:** Open `home.html` in browser
+- **Web:** Visit `http://localhost:8080/home.html` in your browser
 - **API:** `http://localhost:8080/products`
 - **Tests:** `pytest tests/test_products.py -v`
 
+
+### Start in Docker
+
+Open Docker Desktop, build the image from the Dockerfile, and run the container mapping port 8080, make sure to specify port 8080. Then access the app at `http://localhost:8080/home.html`.
+
+
+### Data
+- Product data is loaded from `src/data/products.json` (edit this file to change products)
+
+### Notes
+- Cart data is stored in memory and resets when the container/app restarts
+- All static assets (images, CSS, JS) are served from `/assets`
+
 ---
+
 
 ## 4) Design Decisions
 
-### Why Flask?
-- ✅ Lightweight, perfect for microservices
-- ✅ Easy to test and extend
-- ✅ Minimal Docker overhead
-- ❌ Not ideal for massive scale (Future: FastAPI)
+### Why this concept?
+- I wanted to use Docker because it was fresh in my memory and seemed less aggravating than alternatives.  It’s the easiest way to make sure my code works the same on any machine, and it’s perfect for class projects and demos.
 
-### Why Docker?
-- ✅ Industry standard
-- ✅ Reproducible across machines
-- ✅ Easy integration with cloud platforms
-- ❌ Slight startup overhead
+### Tradebacks
+- Currently, the cart data is kept in memory for now. This works while displaying a mock site but it means the cart resets if the server restarts. For a real store, I’d use a database to save cart data between sessions.
 
-### Why JSON Data?
-- ✅ Human-readable
-- ✅ Native JavaScript support
-- ✅ Easy to extend
-- ❌ Not ideal for large datasets (Future: MongoDB)
+### Security
+- No secrets are stored in the code, and all user input is checked before it’s used. Errors are logged for debugging, but no personal info is ever written to logs. If I were building this for real customers, I’d add HTTPS and user authentication.
 
-### Cart Management (In-Memory)
-**Trade-offs:**
-- ✅ Simple, no dependencies
-- ✅ Fast access
-- ❌ Lost on restart
-- ❌ Doesn't scale across instances
+### Operations (Ops)
+- For logs and metrics, I’m using Python’s built-in logging module to capture API requests and errors. 
 
-**Future:** Redis for persistence and scaling
+- To scale, I would run multiple containers, but there are certainly limits to how far this simple design can go. 
 
-### Security & Privacy
-- ✅ `.env.example` with no secrets
-- ✅ Input validation on POST endpoints
-- ✅ Structured error handling
-- ✅ Logging without PII
-
-**Future:** HTTPS, rate limiting, JWT auth
+- Known limitations: Cart data is lost on restart, no user authentication, and no persistent storage for orders. These are fine for a demo, but would need to be fixed for a production app.
 
 ---
 
 ## 5) Results & Evaluation
 
-### API Validation
 
 **All tests passing:**
 ```
@@ -210,99 +175,28 @@ python3 -m src.main
 | Response Time | ~5ms |
 | Requests/sec | 100+ (single container) |
 
-### Frontend Features
-
-✅ Responsive design  
-✅ Product grid layout  
-✅ Real-time cart counter  
-✅ Success notifications  
-✅ Shopping cart modal  
-✅ Smooth animations
 
 ---
 
 ## 6) What's Next
-
-### Phase 1: Backend (Weeks 1-2)
 - [ ] MongoDB for persistent storage
 - [ ] Product filtering/search
-- [ ] Category browsing
-
-### Phase 2: Users (Weeks 3-4)
-- [ ] User registration/auth (JWT)
+- [ ] User registration/authorization
 - [ ] Order history
-- [ ] Wishlist
-
-### Phase 3: Features (Weeks 5-6)
 - [ ] Payment integration (Stripe)
-- [ ] Email notifications
-- [ ] Admin dashboard
-
-### Phase 4: DevOps (Weeks 7-8)
-- [ ] Kubernetes manifests
-- [ ] CI/CD (GitHub Actions)
-- [ ] Prometheus metrics
-- [ ] ELK stack logging
-
-### Phase 5: Scale (Weeks 9-10)
-- [ ] Redis caching
-- [ ] CDN for assets
-- [ ] Load testing
+- [ ] Email registration popup
 
 ---
 
 ## 7) Links & References
 
-### 📦 GitHub Repository
-[**INSERT GitHub URL**]
+### GitHub Repository
+https://github.com/kbr8ey/FinalCase
 
-### 🚀 Cloud Deployment (Optional)
-[**INSERT Cloud URL if deployed**]
-
-### 📚 Technologies
-
-- **Backend:** Flask 3.0.0, Python 3.11
-- **Frontend:** HTML5, CSS3, JavaScript
-- **Container:** Docker
-- **Testing:** pytest 7.4.3
-- **License:** MIT
-
----
-
-## Project Structure
-
-```
-clothing-store/
-├── src/
-│   ├── app.py               # Flask API
-│   ├── models.py            # Product dataclass
-│   ├── main.py              # Entry point
-│   └── data/products.json   # 8 products
-├── tests/
-│   └── test_products.py     # 15+ tests
-├── home.html                # Professional frontend
-├── Dockerfile               # Container config
-├── requirements.txt         # Dependencies
-├── .env.example             # Config template
-├── run.sh                   # Launcher
-├── LICENSE                  # MIT License
-└── README.md                # This file
-```
-
----
 
 ## License
 
 MIT License - See [LICENSE](LICENSE) for details.
 
-**Submission Requirements Met:**
-✅ Course concept integration (REST + Docker)  
-✅ Functionality (working e-commerce app)  
-✅ Containerization (working Dockerfile, one-command run)  
-✅ Write-up (complete case study in README)  
-✅ Code quality (clean structure, no hardcoded secrets)  
-✅ Testing (15+ pytest cases)  
-✅ Security (env vars, input validation)  
-✅ Source control (GitHub repo with commits)  
 
-**Total: 100+ points**
+

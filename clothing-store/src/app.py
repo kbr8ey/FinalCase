@@ -125,5 +125,6 @@ def internal_error(error):
 
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 8000))
+    port = 8080
+    #int(os.environ.get('PORT', 8000))
     app.run(debug=True, host='0.0.0.0', port=port)
