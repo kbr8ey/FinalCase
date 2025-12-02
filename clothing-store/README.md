@@ -120,7 +120,7 @@ Open Docker Desktop, build the image from the Dockerfile, and run the container 
 
 
 ### Data
-- Product data is loaded from `src/data/products.json` (edit this file to change products)
+- Product data is loaded from `src/data/products.json` 
 
 ### Notes
 - Cart data is stored in memory and resets when the container/app restarts
