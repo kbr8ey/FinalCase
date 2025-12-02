@@ -70,7 +70,7 @@ My solution is a containerized full-stack e-commerce platform combining using Fl
 └─────────────────────────────────────────────┘
 ```
 
-![Architecture Screenshot](assets/images/Screenshot.png)
+![Architecture Screenshot](src/assets/images/Screenshot.png)
 
 ### Data Sources
 
